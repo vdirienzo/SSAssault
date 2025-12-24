@@ -244,6 +244,8 @@ MIT License - Feel free to use, modify, and distribute.
 
 ## Author
 
+**Homero Thompson del Lago del Terror**
+
 Created with passion for arcade gaming and web technologies.
 
 ---
