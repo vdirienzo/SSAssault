@@ -39,6 +39,7 @@
 
 <p align="center">
   <img src="screenshots/05.png" width="45%" alt="Level 5: Inferno"/>
+  <img src="screenshots/06.png" width="45%" alt="Level 4: Ocean"/>
 </p>
 
 | Screenshot | Description |
@@ -48,6 +49,7 @@
 | **03** | Level 2: JUNGLE - Amazon rainforest with river and waterfall |
 | **04** | Level 3: ISLANDS - Tropical islands with turquoise water |
 | **05** | Level 5: INFERNO - Volcanic lava fields |
+| **06** | Level 4: OCEAN - Underwater with bubbles |
 
 ---
 
@@ -146,7 +148,8 @@ SSAssault/
     ├── 02.jpeg                 # Level 1: Bullet hell
     ├── 03.png                  # Level 2: Jungle
     ├── 04.png                  # Level 3: Islands
-    └── 05.png                  # Level 5: Inferno
+    ├── 05.png                  # Level 5: Inferno
+    └── 06.png                  # Level 4: Ocean
 ```
 
 The entire game is contained in a single HTML file featuring:
