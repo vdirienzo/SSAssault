@@ -28,21 +28,26 @@
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/01.jpeg" width="45%" alt="Level 1: Space - SPREAD weapon"/>
-  <img src="screenshots/02.jpeg" width="45%" alt="Level 1: Space - Bullet Hell chaos"/>
+  <img src="screenshots/01.jpeg" width="45%" alt="Level 1: Space"/>
+  <img src="screenshots/02.jpeg" width="45%" alt="Level 1: Space - Bullet Hell"/>
 </p>
 
 <p align="center">
-  <img src="screenshots/03.jpeg" width="45%" alt="Level 2: Atmosphere - Clouds"/>
-  <img src="screenshots/04.jpeg" width="45%" alt="Level 5: Inferno - Fire and lava"/>
+  <img src="screenshots/03.png" width="45%" alt="Level 2: Jungle"/>
+  <img src="screenshots/04.png" width="45%" alt="Level 3: Islands"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/05.png" width="45%" alt="Level 5: Inferno"/>
 </p>
 
 | Screenshot | Description |
 |------------|-------------|
 | **01** | Level 1: SPACE - Gameplay with SPREAD weapon |
 | **02** | Level 1: SPACE - Intense bullet hell with WAVE weapon |
-| **03** | Level 2: ATMOSPHERE - Sky with clouds and APOCALYPSE weapon |
-| **04** | Level 5: INFERNO - Fire, lava, and falling rocks |
+| **03** | Level 2: JUNGLE - Amazon rainforest with river and waterfall |
+| **04** | Level 3: ISLANDS - Tropical islands with turquoise water |
+| **05** | Level 5: INFERNO - Volcanic lava fields |
 
 ---
 
@@ -139,8 +144,9 @@ SSAssault/
 └── screenshots/
     ├── 01.jpeg                 # Level 1: Space
     ├── 02.jpeg                 # Level 1: Bullet hell
-    ├── 03.jpeg                 # Level 2: Atmosphere
-    └── 04.jpeg                 # Level 5: Inferno
+    ├── 03.png                  # Level 2: Jungle
+    ├── 04.png                  # Level 3: Islands
+    └── 05.png                  # Level 5: Inferno
 ```
 
 The entire game is contained in a single HTML file featuring:
