@@ -81,10 +81,10 @@ cd SSAssault
 | # | Level | Theme | Boss |
 |---|-------|-------|------|
 | 1 | **SPACE** | Stars and nebulae | Guardian (10,000 HP) |
-| 2 | **ATMOSPHERE** | Clouds and wind | Destroyer (15,000 HP) |
-| 3 | **SURFACE** | Rocky terrain, destructible buildings | Annihilator (20,000 HP) |
+| 2 | **JUNGLE** | Amazon rainforest with mist | Destroyer (15,000 HP) |
+| 3 | **ISLANDS** | Tropical islands, military turrets | Annihilator (20,000 HP) |
 | 4 | **OCEAN** | Underwater with bubbles and fish | Devastator (25,000 HP) |
-| 5 | **INFERNO** | Fire, lava, and burning rocks | Apocalypse (30,000 HP) |
+| 5 | **INFERNO** | Volcanic lava with eruptions | Apocalypse (30,000 HP) |
 
 ---
 
@@ -124,7 +124,7 @@ HTML5 + CSS3 + Vanilla JavaScript
 └── Google Fonts (Orbitron, Press Start 2P)
 ```
 
-**File Size:** ~96 KB (single self-contained HTML file)
+**File Size:** ~1.2 MB (single self-contained HTML file with embedded images)
 
 **Browser Support:** All modern browsers (Chrome, Firefox, Safari, Edge)
 
@@ -135,7 +135,7 @@ HTML5 + CSS3 + Vanilla JavaScript
 ```
 SSAssault/
 ├── README.md
-├── ssassault.html              # Complete game (HTML + CSS + JS)
+├── ssassault.html              # Complete game (HTML + CSS + JS + embedded images)
 └── screenshots/
     ├── 01.jpeg                 # Level 1: Space
     ├── 02.jpeg                 # Level 1: Bullet hell
