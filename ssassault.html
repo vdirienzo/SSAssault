@@ -359,7 +359,12 @@
         const level4BgImage = new Image();
         level4BgImage.src = 'levels/04.jpg';
         let level4BgY = 0; // Scroll position for level 4 background
-        
+
+        // Level 5 background image (tileable sprite - inferno/lava)
+        const level5BgImage = new Image();
+        level5BgImage.src = 'levels/05.jpg';
+        let level5BgY = 0; // Scroll position for level 5 background
+
         function initLevelBackground() {
             backgroundElements = [];
             destructibles = [];
@@ -430,26 +435,32 @@
                     // Nota: Los peces ya están en la imagen de fondo
                     break;
                     
-                case 5: // INFIERNO / CENTRO DE LA TIERRA
-                    for (let i = 0; i < 25; i++) {
+                case 5: // INFIERNO - Fondo con imagen de lava (tiles)
+                    // Reset scroll position for level 5 background
+                    level5BgY = 0;
+                    // Erupciones de lava semi-transparentes
+                    for (let i = 0; i < 10; i++) {
                         backgroundElements.push({
-                            type: 'flame',
+                            type: 'lavaEruption',
                             x: Math.random() * canvas.width,
                             y: Math.random() * canvas.height,
-                            speed: Math.random() * 2 + 1,
-                            size: Math.random() * 20 + 10,
+                            speed: Math.random() * 0.8 + 0.4,
+                            size: Math.random() * 60 + 40,
+                            opacity: Math.random() * 0.3 + 0.15,
+                            pulse: Math.random() * Math.PI * 2,
                             intensity: Math.random()
                         });
                     }
-                    // Lava rocks
-                    for (let i = 0; i < 10; i++) {
+                    // Partículas de ceniza/chispas flotando
+                    for (let i = 0; i < 15; i++) {
                         backgroundElements.push({
-                            type: 'lavaRock',
+                            type: 'ember',
                             x: Math.random() * canvas.width,
                             y: Math.random() * canvas.height,
                             speed: Math.random() * 1.5 + 0.5,
-                            size: Math.random() * 25 + 15,
-                            rotation: Math.random() * Math.PI * 2
+                            size: Math.random() * 4 + 2,
+                            drift: Math.random() * Math.PI * 2,
+                            glow: Math.random()
                         });
                     }
                     break;
@@ -1926,13 +1937,36 @@
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
                     }
                     break;
-                case 5: // Infierno - Rojo/Naranja ardiente
-                    gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                    gradient.addColorStop(0, '#8B0000');
-                    gradient.addColorStop(0.5, '#FF4500');
-                    gradient.addColorStop(1, '#000000');
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                case 5: // Infierno - Imagen de lava con scroll
+                    // Draw tiled background image with vertical scrolling
+                    if (level5BgImage.complete && level5BgImage.naturalWidth > 0) {
+                        const imgWidth = level5BgImage.naturalWidth;
+                        const imgHeight = level5BgImage.naturalHeight;
+
+                        // Scale to fill canvas width while maintaining aspect ratio
+                        const scale = canvas.width / imgWidth;
+                        const scaledHeight = imgHeight * scale;
+
+                        // Scroll the background (slower for dramatic effect)
+                        level5BgY += 1.0;
+                        if (level5BgY >= scaledHeight) {
+                            level5BgY = 0;
+                        }
+
+                        // Draw tiles to cover the entire canvas with seamless scrolling
+                        const startY = -scaledHeight + (level5BgY % scaledHeight);
+                        for (let y = startY; y < canvas.height; y += scaledHeight) {
+                            ctx.drawImage(level5BgImage, 0, y, canvas.width, scaledHeight);
+                        }
+                    } else {
+                        // Fallback gradient while image loads
+                        gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                        gradient.addColorStop(0, '#8B0000');
+                        gradient.addColorStop(0.5, '#FF4500');
+                        gradient.addColorStop(1, '#000000');
+                        ctx.fillStyle = gradient;
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    }
                     break;
             }
             
@@ -2193,77 +2227,91 @@
             }
             
             if (stage === 5) {
-                // INFIERNO - Llamas
+                // INFIERNO - Erupciones de lava y partículas
                 for (let element of backgroundElements) {
-                    if (element.type === 'flame') {
+                    if (element.type === 'lavaEruption') {
                         element.y += element.speed;
+                        element.pulse += 0.08;
+
                         if (element.y > canvas.height + element.size) {
                             element.y = -element.size;
                             element.x = Math.random() * canvas.width;
                         }
-                        
+
                         ctx.save();
-                        const flicker = Math.sin(frame * 0.1 + element.intensity * 10) * 0.3 + 0.7;
-                        ctx.globalAlpha = flicker * 0.6;
-                        
-                        // Flame gradient
-                        const gradient = ctx.createRadialGradient(element.x, element.y, 0, element.x, element.y, element.size);
-                        gradient.addColorStop(0, '#ffff00');
-                        gradient.addColorStop(0.5, '#ff6600');
-                        gradient.addColorStop(1, '#ff0000');
-                        
+                        // Pulsating opacity for eruption effect
+                        const pulseOpacity = element.opacity * (0.7 + Math.sin(element.pulse) * 0.3);
+                        ctx.globalAlpha = pulseOpacity;
+
+                        // Outer glow - orange/red
+                        const gradient = ctx.createRadialGradient(
+                            element.x, element.y, 0,
+                            element.x, element.y, element.size
+                        );
+                        gradient.addColorStop(0, 'rgba(255, 200, 50, 0.8)');
+                        gradient.addColorStop(0.3, 'rgba(255, 100, 0, 0.6)');
+                        gradient.addColorStop(0.6, 'rgba(255, 50, 0, 0.3)');
+                        gradient.addColorStop(1, 'rgba(200, 0, 0, 0)');
+
                         ctx.fillStyle = gradient;
-                        ctx.shadowBlur = 20;
-                        ctx.shadowColor = '#ff6600';
-                        
-                        // Flame shape
+                        ctx.shadowBlur = 30;
+                        ctx.shadowColor = '#ff4400';
+
+                        // Irregular eruption shape
                         ctx.beginPath();
-                        ctx.moveTo(element.x, element.y + element.size);
-                        ctx.quadraticCurveTo(element.x - element.size * 0.5, element.y, element.x, element.y - element.size);
-                        ctx.quadraticCurveTo(element.x + element.size * 0.5, element.y, element.x, element.y + element.size);
-                        ctx.fill();
-                        ctx.restore();
-                    }
-                    
-                    if (element.type === 'lavaRock') {
-                        element.y += element.speed;
-                        element.rotation += 0.02;
-                        
-                        if (element.y > canvas.height + element.size) {
-                            element.y = -element.size;
-                            element.x = Math.random() * canvas.width;
-                        }
-                        
-                        ctx.save();
-                        ctx.translate(element.x, element.y);
-                        ctx.rotate(element.rotation);
-                        
-                        // Rock
-                        ctx.fillStyle = '#3a3a3a';
-                        ctx.beginPath();
-                        for (let i = 0; i < 6; i++) {
-                            const angle = (Math.PI * 2 / 6) * i;
-                            const radius = element.size * (0.8 + Math.random() * 0.4);
-                            const x = Math.cos(angle) * radius;
-                            const y = Math.sin(angle) * radius;
+                        const points = 8;
+                        for (let i = 0; i <= points; i++) {
+                            const angle = (Math.PI * 2 / points) * i;
+                            const variance = 0.6 + Math.sin(element.pulse + i) * 0.4;
+                            const radius = element.size * variance;
+                            const x = element.x + Math.cos(angle) * radius;
+                            const y = element.y + Math.sin(angle) * radius;
                             if (i === 0) ctx.moveTo(x, y);
                             else ctx.lineTo(x, y);
                         }
                         ctx.closePath();
                         ctx.fill();
-                        
-                        // Lava cracks
-                        ctx.strokeStyle = '#ff4500';
-                        ctx.lineWidth = 2;
-                        ctx.shadowBlur = 10;
-                        ctx.shadowColor = '#ff4500';
+
+                        // Inner bright core
+                        ctx.globalAlpha = pulseOpacity * 1.5;
+                        ctx.fillStyle = '#ffff66';
+                        ctx.shadowColor = '#ffff00';
                         ctx.beginPath();
-                        ctx.moveTo(-element.size * 0.3, 0);
-                        ctx.lineTo(element.size * 0.3, 0);
-                        ctx.moveTo(0, -element.size * 0.3);
-                        ctx.lineTo(0, element.size * 0.3);
-                        ctx.stroke();
-                        
+                        ctx.arc(element.x, element.y, element.size * 0.25, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        ctx.restore();
+                    }
+
+                    if (element.type === 'ember') {
+                        element.y += element.speed;
+                        element.drift += 0.05;
+                        const driftX = Math.sin(element.drift) * 3;
+
+                        if (element.y > canvas.height + element.size) {
+                            element.y = -element.size;
+                            element.x = Math.random() * canvas.width;
+                        }
+
+                        ctx.save();
+                        // Flickering ember
+                        const flicker = 0.5 + Math.sin(frame * 0.2 + element.glow * 10) * 0.5;
+                        ctx.globalAlpha = flicker * 0.8;
+
+                        // Ember glow
+                        ctx.fillStyle = element.glow > 0.5 ? '#ffcc00' : '#ff6600';
+                        ctx.shadowBlur = 8;
+                        ctx.shadowColor = ctx.fillStyle;
+                        ctx.beginPath();
+                        ctx.arc(element.x + driftX, element.y, element.size, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        // Bright center
+                        ctx.fillStyle = '#ffffff';
+                        ctx.beginPath();
+                        ctx.arc(element.x + driftX, element.y, element.size * 0.4, 0, Math.PI * 2);
+                        ctx.fill();
+
                         ctx.restore();
                     }
                 }
