@@ -19,6 +19,7 @@
 - 5 epic boss battles with multiple attack phases
 - 5 weapon upgrade levels
 - 5 enemy types with distinct patterns
+- Gamepad support (Bluetooth/USB) - connect multiple controllers
 - Retro cyberpunk/neon visual style
 - High score persistence
 - Zero dependencies - runs directly in browser
@@ -74,7 +75,26 @@ cd SSAssault
 | `Space` | Fire weapon |
 | `P` / `ESC` | Pause / Resume |
 
-### Debug Controls (Development)
+### Gamepad Controls (Bluetooth/USB)
+
+Connect any standard gamepad via Bluetooth or USB. The game auto-detects connected controllers and shows a 🎮 GAMEPAD indicator.
+
+| Button | Action |
+|--------|--------|
+| `Left Stick` / `D-Pad` | Move ship |
+| `A` (Xbox) / `X` (PS) | Fire weapon |
+| `LB` | Pause / Resume |
+| `LT` | Start game |
+
+**Debug Controls (Gamepad):**
+
+| Button | Action |
+|--------|--------|
+| `X` (Xbox) / `Square` (PS) | Toggle God Mode |
+| `RB` | Next level |
+| `RT` | Previous level |
+
+### Debug Controls - Keyboard (Development)
 
 | Key | Action |
 |-----|--------|
